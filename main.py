@@ -23,5 +23,5 @@ def main(threadid):
 
 if __name__ == '__main__':
     threadid = argv[1]
-    print 'YOSimPOSter - A SA bot\n'
+    print 'YOSimPOSter - An SA bot\n'
     main(threadid)
