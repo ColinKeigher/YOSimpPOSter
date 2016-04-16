@@ -1,19 +1,29 @@
-import requests
 from BeautifulSoup import BeautifulSoup
 
 class newreply(object):
-    def __init__(self, settings, target):
+    def __init__(self, settings, textdata):
         self.settings = settings
-        self.target = 'https://forums.somethingawful.com/newreply.php?action=newreply&threadid=3768013'
+        self.textdata = textdata
+        self.details = None
 
     def initReply(self):
-        r = requests.get(self.target)
-        bs = BeautifulSoup(r.text)
+        bs = BeautifulSoup(self.textdata)
         forms = bs.findAll('form')
         for form in forms:
-            print form
             if form.get('action') == 'newreply.php':
-                print form
+                inputs = form.findAll('input')
+                i = {}
+                for inputval in inputs:
+                    if inputval.get('type') == 'hidden' or inputval.get('type') == 'checkbox':
+                        name = inputval.get('name')
+                        value = inputval.get('value')
+                        i[name] = value                  
+                self.details = i
+
+    def createReply(self, content):
+        if self.details is None:
+            self.initReply()
+        self.details['message'] = content
 
 '''
 from forum_interface.newreply import newreply
