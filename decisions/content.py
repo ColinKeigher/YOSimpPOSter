@@ -6,7 +6,7 @@ class content(object):
         self.markov_text = None
         self.sentence_length = 160
         self.lines = 2
-        self.paragraphs = 2
+        self.paragraphs = 3
 
     def loadText(self):
         filename = self.settings['details']['data']
@@ -17,7 +17,7 @@ class content(object):
         if self.markov_text is None:
             self.loadText()
         out = self.markov_text.make_short_sentence(self.sentence_length)
-        if out[-1] != '.':
+        if out[-1] not in ['.', '?', '!']:
             out = '{}.'.format(out)
         return out
 

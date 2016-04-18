@@ -14,10 +14,15 @@ def main(threadid):
     printn('Targetting thread ID: {}'.format(threadid))
     while True:
         f = forums(settings=settings, threadid=threadid)
-        d = decisions(settings=settings)
-        f.genReply(content=d.generateContent())
-        printn('Posted to thread ID: {}'.format(threadid))
-        random_wait = randint(30,3600)
+        d = decisions(settings=settings, force_lower=settings['details']['force_lower'], 
+            recent=f.threadRecent())
+        d.shouldProceed()
+        if d.canProceed:
+            f.genReply(content=d.generateContent())
+            printn('Posted to thread ID: {}'.format(threadid))
+        else:
+            printn('Not going to bother to reply as I was the last one in the thread.')
+        random_wait = randint(30,1100)
         printn('Waiting {} seconds to post again.'.format(random_wait))
         sleep(random_wait)
 

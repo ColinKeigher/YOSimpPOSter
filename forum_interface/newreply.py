@@ -14,7 +14,7 @@ class newreply(object):
                 inputs = form.findAll('input')
                 i = {}
                 for inputval in inputs:
-                    if inputval.get('type') == 'hidden' or inputval.get('type') == 'checkbox':
+                    if inputval.get('type') in ['hidden', 'checkbox']:
                         name = inputval.get('name')
                         value = inputval.get('value')
                         i[name] = value                  
